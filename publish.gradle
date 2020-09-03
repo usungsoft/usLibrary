@@ -1,0 +1,67 @@
+apply plugin: 'com.novoda.bintray-release'
+
+group 'com.usungsoft.usLibrary'
+version '1.0.0' // build.gradle에 versionName과 같아야함.
+
+/** Configurations for com.novoda.bintray-release plugin.
+ *
+ * This plugin uses https://github.com/bintray/gradle-bintray-plugin internally.
+ * See https://github.com/novoda/bintray-release/wiki/Configuration-of-the-publish-closure for more
+ * detail about options in `publish` closure.
+ */
+
+publish {
+    // Required.
+    bintrayUser = 'usungsoftdev'
+    bintrayKey = 'd0e22475750b064f72e56d27056e9f6f5ebefdd7'
+    groupId = this.group
+    publishVersion = this.version
+    artifactId = 'usLibrary'
+
+    // Optional.
+    userOrg = 'Usungsoft'
+    repoName = 'com.usungsoft.usLibrary'  // Should be same as bintray repo name.
+    desc = 'usungsoft common library'
+    dryRun = false
+    override = true
+}
+
+/** Add support for syncing to maven central.
+ *
+ * This closure synchronizes the POM file that specifies transitive dependencies with the maven
+ * central.
+ * See https://github.com/novoda/bintray-release/wiki/Add-support-for-syncing-to-maven-central for
+ * more detail.
+ */
+subprojects {
+    group = this.group
+    version = this.version
+
+    def isUploading = project.getGradle().startParameter.taskNames.any {
+        it.contains('bintrayUpload')
+    }
+    if (isUploading && project.name in [MODULE_NAME]) {
+        apply plugin: 'maven'
+
+        def defaultPomPath = "build/publications/maven/pom-default.xml"
+        gradle.taskGraph.whenReady { taskGraph ->
+            taskGraph.getAllTasks().find {
+                it.path == ":$project.name:generatePomFileForMavenPublication"
+            }.doLast {
+                file(defaultPomPath).delete()
+
+                // Overriding POM file to make sure we can sync to maven central.
+                // See https://maven.apache.org/pom.html for more detail about POM.
+                pom {
+                    project {
+                        name project.publish.artifactId
+                        artifactId project.publish.artifactId
+                        packaging project.name == 'compiler' ? 'jar' : 'aar'
+                        url project.publish.website
+                        version this.version
+                    }
+                }.writeTo(defaultPomPath)
+            }
+        }
+    }
+}
