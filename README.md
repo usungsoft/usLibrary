@@ -9,3 +9,6 @@
 # Bintray Publish API Key. => X 사용안함
 - publish api key: d0e22475750b064f72e56d27056e9f6f5ebefdd7
 - publish user name: usungsoftdev
+
+# Publish
+- [배포방법](https://sjh1253.tistory.com/entry/Android-Open-Source-Library-%EB%B0%B0%ED%8F%AC)
