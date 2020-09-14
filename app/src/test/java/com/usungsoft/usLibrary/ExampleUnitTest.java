@@ -23,5 +23,13 @@ public class ExampleUnitTest {
         System.out.println("2) ==============");
         System.out.println(Parse.convertRfidToBarcode("30340BC9E8073B6000000000"));
         System.out.println(Parse.convertRfidToBarcode("30340BC9E8073B6000000000").equals("193146074056"));
+
+//        System.out.println("3) ==============");
+//        System.out.println(Parse.RfidUidToBarcode("30340BDEF44ABB6000000000"));
+//        System.out.println(Parse.RfidUidToBarcode("30340BDEF44ABB6000000000").equals("194493765253"));
+//
+//        System.out.println("4) ==============");
+//        System.out.println(Parse.RfidUidToBarcode("30340BC9E8073B6000000000"));
+//        System.out.println(Parse.RfidUidToBarcode("30340BC9E8073B6000000000").equals("193146074056"));
     }
 }

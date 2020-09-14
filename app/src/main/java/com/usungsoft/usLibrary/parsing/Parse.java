@@ -8,6 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Parse {
     private static String TAG = Parse.class.getSimpleName();
+//    static {
+//        System.loadLibrary("ussoftRFID");
+//    }
+//    public static native String RfidUidToBarcode(String rfidCode);
 
     /**
      * @param rfidCode is string of 24, 32 or Etc.. length
