@@ -16,3 +16,6 @@
 # NDK 적용
 - File -> Project Structure -> SDK Location -> Android NDK location 정보 입력 (설치된 NDK 위치 잡아줌.)
 - 2020.09.14: 현재 .dll이 32bit 로 release 된거라 안드에서 사용을 못 함. 주석처리 해놓음.
+
+# 상품찾기 전용 게이지 프로그레스
+-
