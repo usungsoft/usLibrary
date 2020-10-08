@@ -181,7 +181,7 @@ public class UsHorizontalProgress extends ConstraintLayout {
             }
         else {
             int percentage = (int) rssiOrLoc;
-            if (percentage > 0) percentage = 100;
+            if (percentage > 100) percentage = 100;
 
             percentVal = percentage;
         }
