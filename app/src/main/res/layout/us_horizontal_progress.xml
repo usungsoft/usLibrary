@@ -5,6 +5,32 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ToggleButton
+        android:id="@+id/btn_toggle"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:background="@drawable/sel_toggle"
+        android:checked="true"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        android:layout_marginBottom="3dp"
+        android:stateListAnimator="@null"
+        app:layout_constraintStart_toStartOf="@+id/progress"
+        app:layout_constraintBottom_toTopOf="@+id/progress"/>
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textSize="13sp"
+        app:layout_constraintStart_toEndOf="@+id/btn_toggle"
+        app:layout_constraintBottom_toTopOf="@+id/progress"
+        android:layout_marginLeft="7dp"
+        android:layout_marginBottom="5dp"
+        android:text="리딩 거리 측정"/>
+
     <Button
         android:id="@+id/btn_expand_collapse"
         android:layout_width="20dp"

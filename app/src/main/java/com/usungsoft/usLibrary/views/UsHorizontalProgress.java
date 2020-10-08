@@ -10,11 +10,13 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.usungsoft.usLibrary.R;
+import com.usungsoft.usLibrary.utils.UsFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +27,11 @@ import java.util.List;
 public class UsHorizontalProgress extends ConstraintLayout {
     Context mContext;
     ProgressBar mProgressBar;
-    TextView mTvPercentage, mTvLow, mTvHigh;
+    TextView mTvPercentage, mTvLow, mTvHigh, mTvStatus;
     Button mBtnExpandCollapse;
+    ToggleButton mToggleStatus;
 
+    private boolean mUseRssiLocStatus = true;
     private boolean mUsePercentage = true;
     private boolean mCollapseState = true;
     private final List<Integer> mRssiDbmTable = new ArrayList<>(100);
@@ -57,6 +61,9 @@ public class UsHorizontalProgress extends ConstraintLayout {
         mTvHigh = findViewById(R.id.tv_high);
         mTvPercentage = findViewById(R.id.tv_percentage);
         mBtnExpandCollapse = findViewById(R.id.btn_expand_collapse);
+        mToggleStatus = findViewById(R.id.btn_toggle);
+        mTvStatus = findViewById(R.id.tv_status);
+
         initExpandCollapseListener();
 
         if (attrs != null) {
@@ -68,6 +75,8 @@ public class UsHorizontalProgress extends ConstraintLayout {
 
                 if (attr == R.styleable.UsHorizontalProgress_use_precentage_text)
                     usePercentageText(ta.getBoolean(attr, true));
+                else if (attr == R.styleable.UsHorizontalProgress_use_rssi_loc_status)
+                    useRssiLocStatus(ta.getBoolean(attr, true));
             }
         }
 
@@ -110,6 +119,10 @@ public class UsHorizontalProgress extends ConstraintLayout {
         mTvLow.setVisibility(visible);
         if (mUsePercentage)
             mTvPercentage.setVisibility(visible);
+        if (mUseRssiLocStatus) {
+            mToggleStatus.setVisibility(visible);
+            mTvStatus.setVisibility(visible);
+        }
         mTvHigh.setVisibility(visible);
         mBtnExpandCollapse.setText(expand ? "-" : "+");
     }
@@ -117,6 +130,21 @@ public class UsHorizontalProgress extends ConstraintLayout {
     public void usePercentageText(boolean usePercentageText) {
         mTvPercentage.setVisibility(usePercentageText ? View.VISIBLE : View.GONE);
         mUsePercentage = usePercentageText;
+    }
+
+    public void useRssiLocStatus(boolean useRssiLocStatus) {
+        mToggleStatus.setVisibility(useRssiLocStatus ? View.VISIBLE : View.GONE);
+        mTvStatus.setVisibility(useRssiLocStatus ? View.VISIBLE : View.GONE);
+        mUseRssiLocStatus = useRssiLocStatus;
+    }
+
+    public void subscribeToggleStatus(UsFunction.P1<Boolean, Boolean> callback) {
+        if (mUseRssiLocStatus)
+            mToggleStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                mTvStatus.setText(isChecked ? "리딩거리 측정" : "태그응답 측정");
+                if (callback != null)
+                    callback.apply(isChecked);
+            });
     }
 
     public void clearProgress() {
@@ -128,31 +156,44 @@ public class UsHorizontalProgress extends ConstraintLayout {
             startProgressAnimate(mProgressBar.getProgress());
         }
         if (mUsePercentage) mTvPercentage.setText("0%");
+        if (!mToggleStatus.isEnabled()) mToggleStatus.setEnabled(true);
     }
 
-    public void updateProgress(double rssi) {
+    public void updateProgress(double rssiOrLoc) {
         if (mContext == null || !mCollapseState) return;
+        if (mToggleStatus.isEnabled())
+            mToggleStatus.setEnabled(false);
 
-        for (int percentage = 0; percentage < mRssiDbmTable.size(); percentage++) {
-            int rssiValue = (mRssiDbmTable.get(percentage)) * -1;
-            int receivedRssi = (int) Math.round(rssi) * -1;
+        int percentVal = 0;
 
-            if (rssiValue == receivedRssi) {
-                if (receivedRssi <= 27) percentage += 9; // 사실상 리더기에 태그 바로 앞에 놓고 읽으면 -25 ~ -27
-                if (percentage > 100) percentage = 100;
+        if (rssiOrLoc < 0)
+            for (int percentage = 0; percentage < mRssiDbmTable.size(); percentage++) {
+                int rssiValue = (mRssiDbmTable.get(percentage)) * -1;
+                int receivedRssi = (int) Math.round(rssiOrLoc) * -1;
 
-                if (percentage > 50) {
-                    mProgressBar.setProgress(50);
-                    mProgressBar.setSecondaryProgress(50 + (percentage - 50));
+                if (rssiValue == receivedRssi) {
+                    if (receivedRssi <= 27) percentage += 9; // 사실상 리더기에 태그 바로 앞에 놓고 읽으면 -25 ~ -27
+                    if (percentage > 100) percentage = 100;
 
-                } else {
-                    mProgressBar.setProgress(percentage);
-                    mProgressBar.setSecondaryProgress(0);
+                    percentVal = percentage;
+                    break;
                 }
-
-                mTvPercentage.setText(percentage + "%");
-                break;
             }
+        else {
+            int percentage = (int) rssiOrLoc;
+            if (percentage > 0) percentage = 100;
+
+            percentVal = percentage;
         }
+
+        if (percentVal > 50) {
+            mProgressBar.setProgress(50);
+            mProgressBar.setSecondaryProgress(50 + (percentVal - 50));
+        } else {
+            mProgressBar.setProgress(percentVal);
+            mProgressBar.setSecondaryProgress(0);
+        }
+
+        mTvPercentage.setText(percentVal + "%");
     }
 }

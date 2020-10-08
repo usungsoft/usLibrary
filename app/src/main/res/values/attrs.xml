@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="UsHorizontalProgress">
         <attr name="use_precentage_text" format="boolean"/>
+        <attr name="use_rssi_loc_status" format="boolean"/>
     </declare-styleable>
 </resources>
