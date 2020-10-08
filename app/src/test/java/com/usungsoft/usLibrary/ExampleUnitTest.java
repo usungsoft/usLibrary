@@ -31,5 +31,17 @@ public class ExampleUnitTest {
 //        System.out.println("4) ==============");
 //        System.out.println(Parse.RfidUidToBarcode("30340BC9E8073B6000000000"));
 //        System.out.println(Parse.RfidUidToBarcode("30340BC9E8073B6000000000").equals("193146074056"));
+
+        double rssi = -90.9;
+        System.out.println(">>>> " + rssi);
+        System.out.println(">>>> " + Math.round(rssi));
+        System.out.println(">>>> " + Math.round(rssi) * -1);
+
+        System.out.println("3) ==============");
+        int index = 0;
+        for (int dbm = -113; dbm <= -10; dbm++) {
+            if (index == 101) break;
+            System.out.println(">>>> Index: " + (index++) + ", value: " + dbm);
+        }
     }
 }

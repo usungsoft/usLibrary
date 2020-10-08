@@ -7,4 +7,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="UsHorizontalProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorButtonNormal">#f50057</item>
+        <item name="colorControlActivated">#F25E5E</item>
+        <item name="colorControlHighlight">#90ED7D</item>
+        <item name="android:progressDrawable">@drawable/us_progress</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
 </resources>

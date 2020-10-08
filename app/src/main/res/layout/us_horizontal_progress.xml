@@ -22,12 +22,13 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:progressDrawable="@drawable/us_progress"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+        style="@style/UsHorizontalProgressBar"
+        android:theme="@style/UsHorizontalProgressBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:progress="0"
+        android:secondaryProgress="0"
         android:max="100"/>
 
     <TextView
