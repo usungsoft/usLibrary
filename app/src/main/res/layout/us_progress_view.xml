@@ -1,89 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <ToggleButton
         android:id="@+id/btn_toggle"
         android:layout_width="50dp"
         android:layout_height="20dp"
+        android:layout_marginBottom="3dp"
         android:background="@drawable/sel_toggle"
         android:checked="true"
+        android:stateListAnimator="@null"
         android:text=""
         android:textOff=""
         android:textOn=""
-        android:layout_marginBottom="3dp"
-        android:stateListAnimator="@null"
-        app:layout_constraintStart_toStartOf="@+id/progress"
-        app:layout_constraintBottom_toTopOf="@+id/progress"/>
+        app:layout_constraintBottom_toTopOf="@+id/progress"
+        app:layout_constraintStart_toStartOf="@+id/progress" />
 
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textSize="13sp"
-        app:layout_constraintStart_toEndOf="@+id/btn_toggle"
-        app:layout_constraintBottom_toTopOf="@+id/progress"
         android:layout_marginLeft="7dp"
         android:layout_marginBottom="5dp"
-        android:text="리딩 거리 측정"/>
+        android:fontFamily="sans-serif"
+        android:text="리딩 거리 측정"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@+id/progress"
+        app:layout_constraintStart_toEndOf="@+id/btn_toggle" />
 
     <Button
         android:id="@+id/btn_expand_collapse"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginBottom="3dp"
-        app:layout_constraintEnd_toEndOf="@+id/progress"
-        app:layout_constraintBottom_toTopOf="@+id/progress"
         android:background="@drawable/sel_circle_button"
-        android:textSize="15dp"
+        android:text="-"
         android:textAlignment="center"
-        android:text="-"/>
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/progress"
+        app:layout_constraintEnd_toEndOf="@+id/progress" />
 
-    <ProgressBar
+    <com.usungsoft.usLibrary.views.CustomProgressView
         android:id="@+id/progress"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        style="@style/UsHorizontalProgressBar"
-        android:theme="@style/UsHorizontalProgressBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:progress="0"
-        android:secondaryProgress="0"
-        android:max="100"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pvProgress="0"
+        app:pvShape="line" />
 
     <TextView
         android:id="@+id/tv_low"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        app:layout_constraintTop_toBottomOf="@+id/progress"
+        android:text="Low"
         app:layout_constraintStart_toStartOf="@+id/progress"
-        android:text="Low"/>
+        app:layout_constraintTop_toBottomOf="@+id/progress" />
 
     <TextView
         android:id="@+id/tv_percentage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:fontFamily="sans-serif"
-        app:layout_constraintTop_toBottomOf="@+id/progress"
-        app:layout_constraintStart_toEndOf="@+id/tv_low"
+        android:gravity="center_horizontal"
+        android:text="0%"
         app:layout_constraintEnd_toStartOf="@+id/tv_high"
-        android:text="0%"/>
+        app:layout_constraintStart_toEndOf="@+id/tv_low"
+        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_constraintVertical_bias="0" />
 
     <TextView
         android:id="@+id/tv_high"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        app:layout_constraintTop_toBottomOf="@+id/progress"
+        android:text="High"
         app:layout_constraintEnd_toEndOf="@+id/progress"
-        android:text="High"/>
+        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

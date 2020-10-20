@@ -4,6 +4,9 @@ import com.usungsoft.usLibrary.parsing.Parse;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -43,5 +46,17 @@ public class ExampleUnitTest {
             if (index == 101) break;
             System.out.println(">>>> Index: " + (index++) + ", value: " + dbm);
         }
+
+        List<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(40);
+        list.add(50);
+        int sum = 0;
+        for (Integer value : list)
+            sum += value;
+        System.out.println("3) ==============");
+        System.out.println((float) sum / list.size() * 0.01f);
     }
 }
