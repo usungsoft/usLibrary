@@ -106,7 +106,7 @@ public class UsProgressView extends ConstraintLayout {
     /**
      * @param expand is true then ProgressBar, TextView visibility visible, if false then gone.
      */
-    private void changeComponentsVisibility(boolean expand) {
+    public void changeComponentsVisibility(boolean expand) {
         int visible = expand ? View.VISIBLE : View.GONE;
 
         mProgressView.setVisibility(expand ? View.VISIBLE : View.INVISIBLE);
