@@ -141,6 +141,10 @@ public class UsProgressView extends ConstraintLayout {
             });
     }
 
+    public void toggleChange(boolean isCheck) {
+        mToggleStatus.setChecked(isCheck);
+    }
+
     /**
      * @apiNote 상품찾기의 스타일 | 색상 | 사이즈 | Tag 에서 Tag가 선택되면 false로 넘겨주세요.
      * @apiNote {@code mProgress.setAverageCalculate(!(checkedId == R.id.rb_search_tag));}
