@@ -182,7 +182,7 @@ public class UsProgressView extends ConstraintLayout {
                             try {
                                 int percentage = valueSum / mReadedValues.size();
                                 mProgressView.setProgress(percentage * mUpdatingFloatValue);
-                                mTvPercentage.setText(percentage + "%");
+                                mTvPercentage.setText((percentage * (mUpdatingFloatValue * 100)) + "%");
                                 mReadedValues.clear();
                             } catch (ArithmeticException e) {  }
                         });
