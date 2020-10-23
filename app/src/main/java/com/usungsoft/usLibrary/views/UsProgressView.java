@@ -36,6 +36,9 @@ public class UsProgressView extends ConstraintLayout {
     private TimerTask mTimerTask;
     private List<Integer> mReadedValues = new ArrayList<>();
 
+    private int mTimerScheduleMilliSec = 1000;
+    private float mUpdatingFloatValue = 0.01f;
+
     private final List<Integer> mRssiDbmTable = new ArrayList<>(100);
 
     public UsProgressView(Context context) {
@@ -155,6 +158,14 @@ public class UsProgressView extends ConstraintLayout {
         recycleAverageTimer(this.mIsAverageCalculate);
     }
 
+    public void setTimerScheduleMilliSec(int milliSec) {
+        this.mTimerScheduleMilliSec = milliSec;
+    }
+
+    public void setUpdatingFloatValue(float updatingValue) {
+        this.mUpdatingFloatValue = updatingValue;
+    }
+
     private void recycleAverageTimer(boolean isAverageCalculate) {
         if (isAverageCalculate) {
             if (mTimer != null) return;
@@ -170,7 +181,7 @@ public class UsProgressView extends ConstraintLayout {
                                 valueSum += readedValue;
                             try {
                                 int percentage = valueSum / mReadedValues.size();
-                                mProgressView.setProgress(percentage * 0.01f);
+                                mProgressView.setProgress(percentage * mUpdatingFloatValue);
                                 mTvPercentage.setText(percentage + "%");
                                 mReadedValues.clear();
                             } catch (ArithmeticException e) {  }
@@ -178,7 +189,7 @@ public class UsProgressView extends ConstraintLayout {
                     }
                 }
             };
-            mTimer.schedule(mTimerTask, 0, 1000); // 1000ms -> 1초
+            mTimer.schedule(mTimerTask, 0, mTimerScheduleMilliSec); // 1000ms -> 1초
         } else {
             if (mTimer != null) {
                 mTimer.cancel();
