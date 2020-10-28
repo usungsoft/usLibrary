@@ -124,6 +124,13 @@ public class UsProgressView extends ConstraintLayout {
         mBtnExpandCollapse.setText(expand ? "-" : "+");
     }
 
+    /**
+     * @return if minus status false, if plus status a true.
+     */
+    public boolean getComponentsVisibilityState() {
+        return mProgressView.getVisibility() == View.VISIBLE;
+    }
+
     public void usePercentageText(boolean usePercentageText) {
         mTvPercentage.setVisibility(usePercentageText ? View.VISIBLE : View.GONE);
         mUsePercentage = usePercentageText;
