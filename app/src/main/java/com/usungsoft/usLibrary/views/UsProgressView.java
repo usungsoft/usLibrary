@@ -122,6 +122,7 @@ public class UsProgressView extends ConstraintLayout {
         }
         mTvHigh.setVisibility(visible);
         mBtnExpandCollapse.setText(expand ? "-" : "+");
+        mCollapseState = expand;
     }
 
     /**
