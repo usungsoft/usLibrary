@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.usungsoft.usLibrary.views.*
+-keep class com.usungsoft.usLibrary.exception.*
+-keep class com.usungsoft.usLibrary.utils.** {
+    public *;
+}
+-keep interface *{
+    <methods>;
+    <fields>;
+}
+-renamesourcefileattribute SourceFile
