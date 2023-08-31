@@ -4,14 +4,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 group = 'com.github.usLibrary'
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localProperties.load(new FileInputStream(localPropertiesFile))
-}
 android {
     compileSdkVersion 33
-    ndkVersion "21.0.6113669"
 
     defaultConfig {
         minSdkVersion 21
