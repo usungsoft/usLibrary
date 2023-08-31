@@ -11,6 +11,7 @@ if (localPropertiesFile.exists()) {
 }
 android {
     compileSdkVersion 33
+    ndkVersion "21.0.6113669"
 
     defaultConfig {
         minSdkVersion 21
@@ -20,13 +21,17 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        def array1 = localProperties['rfidDefaultIndexOne'] ?: ""
-        def array2 = localProperties['rfidDefaultIndexTwo'] ?: ""
-        def array3 = localProperties['rfidDefaultIndexThree'] ?: ""
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+    }
 
-        buildConfigField 'String', 'TABLE_INDEX_ONE', "\"${array1}\""
-        buildConfigField 'String', 'TABLE_INDEX_TWO', "\"${array2}\""
-        buildConfigField 'String', 'TABLE_INDEX_THREE', "\"${array3}\""
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
     }
 
     buildTypes {

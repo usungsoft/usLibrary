@@ -29,4 +29,5 @@
     <methods>;
     <fields>;
 }
+
 -renamesourcefileattribute SourceFile

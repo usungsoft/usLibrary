@@ -22,20 +22,24 @@ public class RfidUtils {
         List<String> idxTable3 = new ArrayList<>();
 
         private Default() {
+            System.loadLibrary("rfid-lib");
+
             // idx1 initialize
-            String[] idx1 = BuildConfig.TABLE_INDEX_ONE.split(",");
+            String[] idx1 = getTableConstant(1).split(",");
             idxTable1.addAll(Arrays.asList(idx1));
 
             // idx2 initialize
-            String[] idx2 = BuildConfig.TABLE_INDEX_TWO.split(",");
+            String[] idx2 = getTableConstant(2).split(",");
 
             idxTable2.addAll(Arrays.asList(idx2));
 
             // idx3 initialize
-            String[] idx3 = BuildConfig.TABLE_INDEX_THREE.split(",");
+            String[] idx3 = getTableConstant(3).split(",");
 
             idxTable3.addAll(Arrays.asList(idx3));
         }
+
+        public native String getTableConstant(int index);
 
         public static Default getInstance() { return DefaultHolder.INSTANCE; }
 
