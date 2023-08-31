@@ -1,22 +1,37 @@
+import proguard.gradle.ProGuardTask
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 group = 'com.github.usLibrary'
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
 android {
-    compileSdkVersion 29
+    compileSdkVersion 33
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def array1 = localProperties['rfidDefaultIndexOne'] ?: ""
+        def array2 = localProperties['rfidDefaultIndexTwo'] ?: ""
+        def array3 = localProperties['rfidDefaultIndexThree'] ?: ""
+
+        buildConfigField 'String', 'TABLE_INDEX_ONE', "\"${array1}\""
+        buildConfigField 'String', 'TABLE_INDEX_TWO', "\"${array2}\""
+        buildConfigField 'String', 'TABLE_INDEX_THREE', "\"${array3}\""
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -27,10 +42,35 @@ android {
     }
 }
 
+task deleteJar(type: Delete) {
+    delete 'build/release/usLibrary.jar'
+}
+
+task exportJar(type: Copy) {
+    from('build/intermediates/aar_main_jar/release/')
+    into('build/release/')
+    include('classes.jar')
+    rename('classes.jar', 'usLibrary.jar')
+}
+
+task deleteProguardJar(type: Delete) {
+    delete 'build/release/compress'
+}
+
+task applyProguard(type: ProGuardTask) {
+    configuration file('proguard-manual.pro')
+
+    injars('build/release/usLibrary.jar')
+    outjars('build/release/compress')
+}
+
+exportJar.dependsOn(deleteJar, build)
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
+    testImplementation project(path: ':app')
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'org.apache.commons:commons-lang3:3.6'
