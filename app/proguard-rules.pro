@@ -20,14 +20,21 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.usungsoft.usLibrary.views.*
+-keep class com.usungsoft.usLibrary.views.** {*;}
 -keep class com.usungsoft.usLibrary.exception.*
 -keep class com.usungsoft.usLibrary.utils.** {
     public *;
 }
--keep interface *{
+-keep interface * {
     <methods>;
     <fields>;
 }
 
 -renamesourcefileattribute SourceFile
+-keepattributes InnerClasses
+-keepattributes Exceptions
+-keepattributes Signature
+
+-keep class * {
+    native <methods>;
+}

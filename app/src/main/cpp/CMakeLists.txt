@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10.2)
-project("rfid-lib")
+project("rfidLib")
 
 add_library(
-        rfid-lib
+        ${CMAKE_PROJECT_NAME}
         SHARED
-        src/main/cpp/rfid-lib.cpp
+        rfidLib.cpp
 )
 
 find_library(
@@ -13,6 +13,7 @@ find_library(
 )
 
 target_link_libraries(
-        rfid-lib
-        ${log-lib}
+        ${CMAKE_PROJECT_NAME}
+        android
+        log
 )

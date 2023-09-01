@@ -5,16 +5,18 @@ apply plugin: 'maven-publish'
 group = 'com.github.usLibrary'
 
 android {
-    compileSdkVersion 33
-    //ndkVersion "21.1.6352462"
+    compileSdkVersion 32
+    ndkVersion '22.1.7171670'
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
 
         externalNativeBuild {
             cmake {
@@ -25,14 +27,25 @@ android {
 
     externalNativeBuild {
         cmake {
-            path "CMakeLists.txt"
+            path "src/main/cpp/CMakeLists.txt"
+            version '3.10.2'
         }
+    }
+
+    packagingOptions {
+        pickFirst 'lib/x86_64/librfidLib.so'
+        pickFirst 'lib/x86/librfidLib.so'
+        pickFirst 'lib/arm64-v8a/librfidLib.so'
+        pickFirst 'lib/armeabi-v7a/librfidLib.so'
     }
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters "arm64-v8a", "armeabi-v7a"
+            }
         }
     }
 
@@ -68,7 +81,7 @@ exportJar.dependsOn(deleteJar, build)
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     testImplementation 'junit:junit:4.12'
     testImplementation project(path: ':app')
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
