@@ -28,3 +28,27 @@
 - UsHorizontalProgress 객체의 updateProgress(double rssi)를 적어준다.
 - Cycle: 건 프레스 - Bluebird.java Handler Message () - onScannerFind()의 결과가 true - ScannerHelper.onRssiCalculate(double rssi) - 해당 프래그먼트 - UsHorizontalProgress Update
 -onScannerStop() 에 mProgress.clearProgress() 호출하면, Animation 적용하여 progress가 0으로 감소된다.
+
+
+# 2023.09.01 New
+- 클라우드 기본 RFID 디코딩 네이티브 소스 추가
+- cpp 소스는 푸시되지 않음 (보안상 - svn에서 관리)
+
+# Release aar 배포방법
+- variants : release
+- clean project
+- reBuild project
+- app/src/build/outputs/aar 아래 app-release.aar 을 usLibrary.aar 로 변경
+- 해당 .aar 파일로 사용할 안드로이드 프로젝트 libs 에 붙여넣고 디펜던시 추가 후 사용
+
+# cpp native 코드가 변경 됐을 경우
+- 변경 후 release build project
+- build/intermediates/cmake/release/obj 아래 4개 폴더 복사
+- jniLibs 아래에 붙여넣고 다시 reBuild
+- 배포 시 위 배포방법대로
+
+# 디코딩 호출
+```
+RfidUtils.Default rfidConverter = RfidUtils.Default.getInstance();
+rfidConverter.decodeRfid("RFIDCODE");
+```
