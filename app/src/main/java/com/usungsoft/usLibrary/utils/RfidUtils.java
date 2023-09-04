@@ -16,7 +16,7 @@ public class RfidUtils {
             System.loadLibrary("rfidLib");
         }
 
-        public native String decodingRfid(String rfidCode);
+        private native String decodingRfid(String rfidCode);
 
         public static Default getInstance() { return DefaultHolder.INSTANCE; }
 
