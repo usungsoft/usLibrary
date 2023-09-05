@@ -18,6 +18,8 @@ public class RfidUtils {
 
         private native String decodingRfid(String rfidCode);
 
+        private native boolean checkSupportCompany(String cdCompany);
+
         public static Default getInstance() { return DefaultHolder.INSTANCE; }
 
         private static class DefaultHolder {
@@ -36,6 +38,10 @@ public class RfidUtils {
 
             if (!StringUtils.isBlank(errMessage))
                 throw new RfidConvertException(String.format("%s 값을 확인해 주세요.", errMessage));
+            else {
+                if (!checkSupportCompany(cdCompany))
+                    throw new RfidConvertException("현재 지원되지 않는 회사코드 입니다.");
+            }
 
             return decodingRfid(rfidCode);
         }
