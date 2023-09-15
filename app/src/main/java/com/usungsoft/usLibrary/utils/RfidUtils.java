@@ -1,5 +1,7 @@
 package com.usungsoft.usLibrary.utils;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.usungsoft.usLibrary.exception.RfidConvertException;
@@ -12,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 public class RfidUtils {
     // <editor-fold desc="USSOFT">
     public static class Default {
+        private static boolean mRunning = false;
+
         private Default() {
             System.loadLibrary("rfidLib");
         }
@@ -43,7 +47,23 @@ public class RfidUtils {
                     throw new RfidConvertException("현재 지원되지 않는 회사코드 입니다.");
             }
 
-            return decodingRfid(rfidCode);
+            try {
+                if (!mRunning) mRunning = true;
+
+                String result = decodingRfid(rfidCode);
+
+                mRunning = false;
+
+                Log.d(getClass().getSimpleName(), "decodingRfid result :: " + result);
+
+                if (StringUtils.equalsAny("error[1]", "error[2]", "error[3]"))
+                    return "";
+
+                return result;
+            } catch (IllegalArgumentException e) {
+                Log.d(getClass().getSimpleName(), "decodingRfid Illegal error !\n" + e.getMessage());
+                return "";
+            }
         }
     }
     // </editor-fold>
