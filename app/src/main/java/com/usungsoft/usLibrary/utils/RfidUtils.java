@@ -20,7 +20,7 @@ public class RfidUtils {
             System.loadLibrary("rfidLib");
         }
 
-        private native String decodingRfid(String rfidCode);
+        private native byte[] decodingRfid(String rfidCode);
 
         private native boolean checkSupportCompany(String cdCompany);
 
@@ -50,13 +50,16 @@ public class RfidUtils {
             try {
                 if (!mRunning) mRunning = true;
 
-                String result = decodingRfid(rfidCode);
+                byte[] resultByteArr = decodingRfid(rfidCode);
 
+                if (resultByteArr == null) return "";
+
+                String result = new String(resultByteArr);
                 mRunning = false;
 
                 Log.d(getClass().getSimpleName(), "decodingRfid result :: " + result);
 
-                if (StringUtils.equalsAny("error[1]", "error[2]", "error[3]"))
+                if (StringUtils.isBlank(result))
                     return "";
 
                 return result;
